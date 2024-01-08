@@ -3,6 +3,9 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useApp } from "@/app/contexts/AppContext";
 
 const style = {
   position: "absolute" as "absolute",
@@ -21,8 +24,45 @@ interface CardProps {
   setOpen: Function;
 }
 
+type rawDataType = { id: string; name: string; content: string };
+
+const url = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export default function Card({ open, setOpen }: CardProps) {
   const handleClose = () => setOpen(false);
+
+  const { data, setData } = useApp();
+  const [filterData, setFilterData] = useState({
+    name: "Default",
+    id: "Default",
+    content: "Default",
+  });
+
+  // Initialize data, while loading into the page
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((item) => {
+        setData(item);
+      });
+
+    console.log(data);
+  }, []);
+
+  const searchParams = useSearchParams();
+  // Filter data
+  useEffect(() => {
+    if (data.length !== 0) {
+      const id = searchParams?.get("id");
+      const isInTheData = data.some((item: rawDataType) => item.id === id);
+      const queryParam = isInTheData ? id : "default";
+      const filter = data.filter(
+        (item: rawDataType) => item.id === queryParam
+      )[0];
+
+      setFilterData(filter);
+    }
+  }, [data]);
 
   return (
     <div>
@@ -34,25 +74,12 @@ export default function Card({ open, setOpen }: CardProps) {
       >
         <Box sx={style}>
           <Typography variant="h6" component="h2" sx={{ color: "black" }}>
-            Message to YOU:
+            {`Message to ${filterData.name}:`}
           </Typography>
           <Typography
             sx={{ mt: 2, color: "black", height: "60vh", overflow: "scroll" }}
           >
-            {`JERUSALEM (AP) — Fistfights break out in bread lines. Residents wait
-            hours for a gallon of brackish water that makes them sick. Scabies,
-            diarrhea and respiratory infections rip through overcrowded
-            shelters. And some families have to choose who eats. “My kids are
-            crying because they are hungry and tired and can’t use the
-            bathroom,” said Suzan Wahidi, an aid worker and mother of five at a
-            U.N. shelter in the central town of Deir al-Balah, where hundreds of
-            people share a single toilet. “I have nothing for them.” With the
-            Israel-Hamas war in its second month and more than 10,000 people
-            killed in Gaza, trapped civilians are struggling to survive without
-            electricity or running water. Palestinians who managed to flee
-            Israel’s ground invasion in northern Gaza now encounter scarcity of
-            food and medicine in the south, and there is no end in sight to the
-            war sparked by Hamas’ deadly Oct. 7 attack.`}
+            {filterData.content}
           </Typography>
           <Typography
             variant="h6"

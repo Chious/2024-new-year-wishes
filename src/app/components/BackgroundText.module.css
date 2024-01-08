@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&display=swap");
+
+.text {
+  color: gray;
+  position: absolute;
+  font-family: "Noto Serif TC", serif;
+  font-weight: 700;
+  z-index: -5;
+}
+
+.text-position-1 {
+  left: -20px;
+}
+
+.text-position-2 {
+  right: 20px;
+}
+.text-position-3 {
+  left: 20px;
+  top: 20px;
+}
+.text-position-4 {
+  left: 10px;
+  top: 250px;
+}
+.text-position-5 {
+  right: 50px;
+  top: 20px;
+}
+.text-position-6 {
+  left: 200px;
+  top: 70px;
+}
+.text-position-7 {
+  left: 0px;
+  top: 200px;
+}
+.text-position-8 {
+  right: -10px;
+  top: 200px;
+}
+.text-position-9 {
+  left: 0px;
+  bottom: 20px;
+}
+.text-position-10 {
+  right: 0px;
+  bottom: 0px;
+}

@@ -34,11 +34,6 @@ export const DragCard = () => {
               height: "150px",
             }}
           />
-          <motion.div
-            className={style.item}
-            drag
-            dragConstraints={constraintsRef}
-          />
           <button onClick={handleOpen}>You Found Me!</button>
         </motion.div>
       </div>
